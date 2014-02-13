@@ -8,13 +8,6 @@
 			$this->mockPDO = $this->getMock('MockPDO');
 			$this->accessLogAPI = new AccessLogAPI();
 		}
-		function testInsert() {
-			$object = new AccessLogAPI();
-			$dbh = new PDO('mysql:host=localhost;dbname=access_log', 'root', '1234');
-			$object->setPDO($dbh);
-			$result = $object->insert(null);
-			$this->assertTrue($result);
-		}
 
 		function testInsertMockSuccess() {
 			$this->mockPDOStatement->expects($this->exactly(1))
@@ -41,7 +34,7 @@
 			$this->accessLogAPI->setPDO($this->mockPDO);
 			$result = $this->accessLogAPI->insert(null);
 			$this->assertFalse($result);
-
+		}
 		function testDelete(){
 
 			$this->mockPDOStatement->expects($this->once())
