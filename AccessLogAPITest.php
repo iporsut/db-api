@@ -4,9 +4,9 @@
 	require_once 'MockStatement.php';
 	class AccessLogAPITest extends PHPUnit_Framework_TestCase {
 		function setUp() {
-			$this->mockPDOStatement = $this->getMock('PDOStatement');
+			$this->mockPDOStatement = $this->getMock('MockStatement');
 			$this->mockPDO = $this->getMock('MockPDO');
-			$this->object = new AccessLogAPI();
+			$this->accessLogAPI = new AccessLogAPI();
 		}
 		function testInsert() {
 			$object = new AccessLogAPI();
@@ -25,8 +25,8 @@
              ->method('prepare')
              ->will($this->returnValue($this->mockPDOStatement));
 
-			$this->object->setPDO($this->mockPDO);
-			$result = $this->object->insert(null);
+			$this->accessLogAPI->setPDO($this->mockPDO);
+			$result = $this->accessLogAPI->insert(null);
 			$this->assertTrue($result);
 		}
 		function testInsertMockFail() {
@@ -38,9 +38,28 @@
              ->method('prepare')
              ->will($this->returnValue($this->mockPDOStatement));
 
-			$this->object->setPDO($this->mockPDO);
-			$result = $this->object->insert(null);
+			$this->accessLogAPI->setPDO($this->mockPDO);
+			$result = $this->accessLogAPI->insert(null);
 			$this->assertFalse($result);
-		}		
+
+		function testDelete(){
+
+			$this->mockPDOStatement->expects($this->once())
+						  ->method('execute');
+
+			$this->mockPDOStatement->expects($this->once())
+						  ->method('rowCount')
+						  ->will($this->returnValue(1));
+
+			$this->mockPDO->expects($this->once())
+				 ->method('prepare')
+				 ->will($this->returnValue($this->mockPDOStatement));
+
+
+			$this->accessLogAPI->setPDO($this->mockPDO);
+			$result = $this->accessLogAPI->deleteById(1);
+
+			$this->assertEquals($result, 1);
+		}
 	}
 ?>
