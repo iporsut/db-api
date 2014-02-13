@@ -10,8 +10,10 @@ class AccessLogAPI {
 		$stmt = $db->prepare("DELETE FROM api_log WHERE id = ?");
 		$stmt->execute(array($id));
 		return $stmt->rowCount();
+		return 1;
 	}
 	
+
 	function insert($value_array) {
 		$sql = "INSERT INTO api_log(ip, service_name, `datetime`, response_time,response_massage) VALUES (:ip,:service_name,:datetime,:response_time,:response_massage)";
 		$q = $this->db->prepare($sql);
@@ -36,5 +38,6 @@ class AccessLogAPI {
 		$stmt->execute();
 		$dbh->commit();
 	}
+
 }
 ?>
