@@ -17,7 +17,7 @@ class AccessLogAPI {
 		$sql = "INSERT INTO api_log(ip, service_name, `datetime`, response_time,response_massage) VALUES (:ip,:service_name,:datetime,:response_time,:response_massage)";
 		$q = $this->db->prepare($sql);
 
-		$q->execute(
+		return $q->execute(
 			[
 				$value_array['ip']=>$ip,
 				$value_array['service_name']=>$service_name,
@@ -26,9 +26,10 @@ class AccessLogAPI {
 				$value_array['response_massage']=>$response_massage
 			]
 	    );
+
 	}
 	
-	function updateById($id, $sql)
+	function updateById($id, $sql){
 		//	try {
 			//$dbh = new PDO('mysql:host=localhost;dbname='.$database, $user, $pass);
 			$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
